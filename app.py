@@ -149,6 +149,15 @@ async def main():
   'url8' : 'https://unitru.edu.pe/webfiles///Convocatoria/2023/3//73_DOC_CONVO_240320230541.txt',
   'url9' : 'https://unitru.edu.pe/webfiles///Convocatoria/2023/3//73_DOC_CONVO_240320230533.txt',
   'url10' : 'https://unitru.edu.pe/webfiles///Convocatoria/2023/3//73_DOC_CONVO_240320230530.txt',
+  'url11' : 'https://unitru.edu.pe/webfiles///Convocatoria/2023/3//71_DOC_CONVO_120320230547.txt',
+  'url12' : 'https://unitru.edu.pe/webfiles///Convocatoria/2023/3//71_DOC_CONVO_120320230543.txt',
+  'url13' : 'https://unitru.edu.pe/webfiles///Convocatoria/2023/3//71_DOC_CONVO_120320230541.txt',
+  'url14' : 'https://unitru.edu.pe/webfiles///Convocatoria/2023/3//71_DOC_CONVO_110320230628.txt',
+  'url15' : 'https://unitru.edu.pe/webfiles///Convocatoria/2023/3//71_DOC_CONVO_110320230602.txt',
+  'url16' : 'https://unitru.edu.pe/webfiles///Convocatoria/2023/3//71_DOC_CONVO_110320230545.txt',
+  'url17' : 'https://unitru.edu.pe/webfiles///Convocatoria/2023/3//71_DOC_CONVO_100320230549.txt',
+  'url18' : 'https://unitru.edu.pe/webfiles///Convocatoria/2023/3//71_DOC_CONVO_100320230547.txt',
+  'url19' : 'https://unitru.edu.pe/webfiles///Convocatoria/2023/3//71_DOC_CONVO_100320230544.txt',
   }
 
   results = await asyncio.gather(*[asyncio.create_task(do_work(url)) for url in data_url.values()])
@@ -163,4 +172,4 @@ if __name__ == '__main__':
   end = time.time() - start
   print(final)
   print(end)
-  final.to_csv('final.csv')
+  final.to_csv('final_results.csv')
