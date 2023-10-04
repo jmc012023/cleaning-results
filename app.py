@@ -163,3 +163,4 @@ if __name__ == '__main__':
   end = time.time() - start
   print(final)
   print(end)
+  final.to_csv('final.csv')
