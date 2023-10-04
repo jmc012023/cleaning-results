@@ -1,4 +1,6 @@
 import pandas as pd
+import asyncio
+import time
 
 def get_type_test_and_place(started_data):
   type_test_and_place = ( started_data
@@ -102,7 +104,7 @@ def join_data(full_name, grades, school, details, date, type_and_place, row_area
 
   return final_df
 
-def transform_data(initial_data):
+async def transform_data(initial_data):
   test_and_place = get_type_test_and_place(initial_data)
   date = get_date(initial_data)
   row_area = get_row_area(initial_data)
@@ -120,7 +122,7 @@ def transform_data(initial_data):
 
   return result_df
 
-def get_data(url):
+async def get_data(url):
   initial_data = pd.read_csv(url,
                  encoding='ISO-8859-1',
                  names= { 'raw_data': 0 }
@@ -128,7 +130,13 @@ def get_data(url):
   
   return initial_data
 
-def main():
+async def do_work(url):
+  initial_data = await get_data(url)
+  result = await transform_data(initial_data)
+
+  return result
+
+async def main():
 
   data_url = {
   'url1' : 'https://unitru.edu.pe/webfiles///Convocatoria/2023/3//73_DOC_CONVO_260320230625.txt',
@@ -143,16 +151,15 @@ def main():
   'url10' : 'https://unitru.edu.pe/webfiles///Convocatoria/2023/3//73_DOC_CONVO_240320230530.txt',
   }
 
-  results = []
-  
-  for url in data_url.values():
-    initial_data = get_data(url)
-    result = transform_data(initial_data)
-    results.append(result)
+  results = await asyncio.gather(*[asyncio.create_task(do_work(url)) for url in data_url.values()])
 
   final = pd.concat(results, axis=0, sort=False)
 
   return final
 
 if __name__ == '__main__':
-  main()
+  start = time.time()
+  final = asyncio.run(main())
+  end = time.time() - start
+  print(final)
+  print(end)
