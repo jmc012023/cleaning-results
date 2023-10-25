@@ -104,7 +104,7 @@ def join_data(full_name, grades, school, details, date, type_and_place, row_area
 
   return final_df
 
-async def transform_data(initial_data):
+def transform_data(initial_data):
   test_and_place = get_type_test_and_place(initial_data)
   date = get_date(initial_data)
   row_area = get_row_area(initial_data)
@@ -122,7 +122,7 @@ async def transform_data(initial_data):
 
   return result_df
 
-async def get_data(url):
+def get_data(url):
   initial_data = pd.read_csv(url,
                  encoding='ISO-8859-1',
                  names= { 'raw_data': 0 }
@@ -130,9 +130,9 @@ async def get_data(url):
   
   return initial_data
 
-async def do_work(url):
-  initial_data = await get_data(url)
-  result = await transform_data(initial_data)
+def do_work(url):
+  initial_data = get_data(url)
+  result = transform_data(initial_data)
 
   return result
 
@@ -160,7 +160,7 @@ async def main():
   'url19' : 'https://unitru.edu.pe/webfiles///Convocatoria/2023/3//71_DOC_CONVO_100320230544.txt',
   }
 
-  results = await asyncio.gather(*[asyncio.create_task(do_work(url)) for url in data_url.values()])
+  results = await asyncio.gather(*[asyncio.to_thread(do_work, url) for url in data_url.values()])
 
   final = pd.concat(results, axis=0, sort=False)
 
